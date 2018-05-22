@@ -3,7 +3,7 @@ var SlotMachine = function(slotMachimeStartSum, isLucky) {
     this.isLucky = isLucky;
 
     this.getSlotMachineSum = function() {
-        return 'Total sum in Slot Machine - ' + this.slotMachineSum;
+        return this.slotMachineSum;
     }
 
     this.takeMoneyFromSlotMachine = function(number) {
@@ -89,13 +89,13 @@ var Casino = function(slotMachineCount, casinoStartSum) {
             if (currentBiggestSum > biggestSum) {
                 indexOfSlotMachineWithBiggestSum = i;
                 biggestSum = currentBiggestSum;
-
             }
         }
 
-        this.slotMachines[slotMachineCount] = new SlotMachine(biggestSum / 2, false);
+        var slotMachineToAdd = new SlotMachine(biggestSum / 2, false);
+        this.slotMachines.push(slotMachineToAdd);
         this.slotMachines[indexOfSlotMachineWithBiggestSum].takeMoneyFromSlotMachine(biggestSum / 2);
-        slotMachineCount += 1;
+        this.slotMachineCount += 1;
         return this.slotMachines.length;
     }
 
@@ -126,9 +126,11 @@ var Casino = function(slotMachineCount, casinoStartSum) {
     }
     this.getSlotMachinesSum = function() {
         var sumString = '';
-        for (var i = 0; i < this.slotMachines.length; i++) {
-            sumString += 'Slot machine ' + (i + 1) + ' - ' + this.slotMachines[i].getSlotMachineSum() + '\n';
+        for (var i = 0; i < this.slotMachineCount; i++) {
+          if(this.slotMachines[i]!==undefined){  
+          sumString += 'Slot machine ' + (i + 1) + ' - ' + this.slotMachines[i].getSlotMachineSum() + '\n';
         }
+      }
         return sumString;
     }
 
@@ -139,9 +141,10 @@ var Casino = function(slotMachineCount, casinoStartSum) {
 
 var casino = new Casino(9, 8767);
 console.log(casino.getSlotMachinesSum());
-console.log('Total sum - ' + casino.getSum());
-console.log('Count of Stot Machine - ' + casino.getSlotMashinesCount());
-console.log('Added Stot Machine. Total number of Stot Machine - ' + casino.addSlotMachine());
+console.log('Total sum - ' + casino.getSum()+"\n");
+console.log('Count of slot machines - ' + casino.getSlotMashinesCount()+"\n");
+casino.addSlotMachine();
+console.log('Slot Machine added. Total number of slot machines - ' + casino.getSlotMashinesCount());
 console.log(casino.getSlotMachinesSum());
 console.log('Deleted Stot Machine - ' + casino.removeSlotMachine(5));
 console.log(casino.getSlotMachinesSum());
